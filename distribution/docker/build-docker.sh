@@ -24,7 +24,7 @@ REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 # ── defaults ──────────────────────────────────────────────────────────────────
 IMAGE_TAG="${IMAGE_TAG:-sonarr:local}"
 BUILD_DATE="${BUILD_DATE:-$(date -u +%Y-%m-%dT%H:%M:%SZ)}"
-PLATFORM="${PLATFORM:-}"
+PLATFORM="${PLATFORM:-linux/amd64}"
 PUSH="${PUSH:-false}"
 
 # Derive VERSION from git if not set
@@ -71,3 +71,4 @@ docker buildx build \
 
 echo ""
 echo "Build complete: ${IMAGE_TAG}"
+
