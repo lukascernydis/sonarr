@@ -25,6 +25,7 @@ WORKDIR /src
 # global.json is intentionally omitted to avoid SDK version pinning inside the
 # container – the image SDK is used as-is.
 COPY src/ ./src/
+COPY Logo/ ./Logo/
 
 # Self-contained publish for linux/amd64 (musl = Alpine compatible).
 # Bundles the .NET runtime so no runtime package is needed in the final image.

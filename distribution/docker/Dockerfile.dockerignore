@@ -12,7 +12,6 @@ CLA.md
 CONTRIBUTING.md
 COPYRIGHT.md
 LICENSE.md
-Logo/
 schemas/
 
 # ── Build artefacts (should never be in a fresh CI checkout anyway) ───────────
