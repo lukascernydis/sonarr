@@ -1,0 +1,43 @@
+# ── Version control ──────────────────────────────────────────────────────────
+.git
+.gitignore
+.gitattributes
+.github
+
+# ── Documentation / metadata ─────────────────────────────────────────────────
+*.md
+FUNDING.yml
+SECURITY.md
+CLA.md
+CONTRIBUTING.md
+COPYRIGHT.md
+LICENSE.md
+Logo/
+schemas/
+
+# ── Build artefacts (should never be in a fresh CI checkout anyway) ───────────
+_output/
+_tests/
+_artifacts/
+_temp/
+frontend/build/node_modules/
+
+# ── Local dev tooling ─────────────────────────────────────────────────────────
+node_modules/
+.pnpm-store/
+
+# ── Distribution assets not needed in the Docker build ───────────────────────
+distribution/debian/
+distribution/macOS/
+distribution/windows/
+distribution/docker-build/
+
+# ── Docker tests / legacy scripts ────────────────────────────────────────────
+docker/
+
+# ── IDE / OS noise ────────────────────────────────────────────────────────────
+.vs/
+.idea/
+*.user
+.DS_Store
+Thumbs.db
