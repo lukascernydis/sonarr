@@ -80,7 +80,7 @@ namespace NzbDrone.Core.Jobs
 
                     new ScheduledTask
                     {
-                        Interval = 24 * 60,
+                        Interval = 7 * 24 * 60,
                         TypeName = typeof(UpdateSceneMappingCommand).FullName
                     },
 
@@ -104,7 +104,7 @@ namespace NzbDrone.Core.Jobs
 
                     new ScheduledTask
                     {
-                        Interval = 24 * 60,
+                        Interval = 7 * 24 * 60,
                         TypeName = typeof(CleanUpRecycleBinCommand).FullName
                     },
 
