@@ -5,10 +5,8 @@ FROM node:20-alpine AS frontend-builder
 
 WORKDIR /src
 
-# Project uses Yarn 1 (classic) – pin the same version as volta in package.json
-RUN npm install -g yarn@1.22.19
-
 # Install dependencies before copying source for better layer cache reuse
+# (node:20-alpine already ships with Yarn 1.x)
 COPY package.json yarn.lock .yarnrc ./
 RUN yarn install --frozen-lockfile --network-timeout 120000
 
