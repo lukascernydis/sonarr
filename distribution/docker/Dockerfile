@@ -28,11 +28,14 @@ COPY src/ ./src/
 
 # Self-contained publish for linux/amd64 (musl = Alpine compatible).
 # Bundles the .NET runtime so no runtime package is needed in the final image.
+# EnableAnalyzers=false skips StyleCop/Roslyn style checks (TreatWarningsAsErrors
+# is true in Directory.Build.props and would otherwise fail the Docker build).
 RUN dotnet publish src/NzbDrone.Console/Sonarr.Console.csproj \
       -c Release \
       -r linux-musl-x64 \
       -f net6.0 \
       --self-contained true \
+      -p:EnableAnalyzers=false \
       -o /app/sonarr/bin
 
 # ── Stage 3: Final runtime image ─────────────────────────────────────────────
