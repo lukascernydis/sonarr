@@ -39,6 +39,21 @@ RUN dotnet publish src/NzbDrone.Console/Sonarr.Console.csproj \
       -p:EnableAnalyzers=false \
       -o /app/sonarr/bin
 
+# Sonarr.Mono is NOT a direct reference – it is loaded at runtime by
+# AssemblyLoader when running on Linux. Publish it separately and copy
+# the DLL (+ its native helper) into the same bin directory.
+RUN dotnet publish src/NzbDrone.Mono/Sonarr.Mono.csproj \
+      -c Release \
+      -r linux-musl-x64 \
+      -f net6.0 \
+      --self-contained false \
+      -p:EnableAnalyzers=false \
+      -o /tmp/mono-publish && \
+    cp /tmp/mono-publish/Sonarr.Mono.dll        /app/sonarr/bin/ && \
+    cp /tmp/mono-publish/Mono.Posix.NETStandard.dll /app/sonarr/bin/ 2>/dev/null || true && \
+    find /tmp/mono-publish -name 'libMonoPosixHelper*' -exec cp {} /app/sonarr/bin/ \; && \
+    rm -rf /tmp/mono-publish
+
 # ── Stage 3: Final runtime image ─────────────────────────────────────────────
 FROM ghcr.io/linuxserver/baseimage-alpine:3.23
 
@@ -70,6 +85,15 @@ RUN printf "UpdateMethod=docker\nBranch=main\nPackageVersion=%s\nPackageAuthor=s
 
 # s6-overlay service definitions
 COPY distribution/docker/root/ /
+
+# Windows git does not preserve the execute bit – restore it for every s6
+# script that needs to be exec-able (run, check, up, finish …).
+# Also strip any Windows CRLF line endings that break s6-rc-compile
+# (the 'type' file must contain exactly "oneshot\n", not "oneshot\r\n").
+RUN find /etc/s6-overlay/s6-rc.d -type f \
+    -exec sed -i 's/\r//' {} + && \
+    find /etc/s6-overlay/s6-rc.d -type f \( -name 'run' -o -name 'check' -o -name 'up' -o -name 'finish' \) \
+    -exec chmod +x {} +
 
 EXPOSE 8989
 VOLUME /config

@@ -6,6 +6,9 @@
 *.sh text eol=lf
 distribution/debian/* text eol=lf
 distribution/osx/Sonarr text eol=lf
+# s6-overlay scripts and metadata files must always use LF –
+# CRLF in 'type', 'run', 'up', etc. breaks s6-rc-compile at container start
+distribution/docker/root/** text eol=lf
 
 # Custom for Visual Studio
 *.cs     diff=csharp
