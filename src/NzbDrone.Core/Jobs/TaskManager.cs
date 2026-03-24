@@ -7,7 +7,6 @@ using NzbDrone.Core.Backup;
 using NzbDrone.Core.Configuration;
 using NzbDrone.Core.Configuration.Events;
 using NzbDrone.Core.DataAugmentation.Scene;
-using NzbDrone.Core.Download;
 using NzbDrone.Core.HealthCheck;
 using NzbDrone.Core.Housekeeping;
 using NzbDrone.Core.ImportLists;
@@ -66,40 +65,34 @@ namespace NzbDrone.Core.Jobs
         {
             var defaultTasks = new List<ScheduledTask>
                 {
-                    new ScheduledTask
-                    {
-                        Interval = 1,
-                        TypeName = typeof(RefreshMonitoredDownloadsCommand).FullName,
-                        Priority = CommandPriority.High
-                    },
 
                     new ScheduledTask
                     {
-                        Interval = 5,
+                        Interval = 24 * 60,
                         TypeName = typeof(MessagingCleanupCommand).FullName
                     },
 
                     new ScheduledTask
                     {
-                        Interval = 6 * 60,
+                        Interval = 7 * 24 * 60,
                         TypeName = typeof(ApplicationUpdateCheckCommand).FullName
                     },
 
                     new ScheduledTask
                     {
-                        Interval = 3 * 60,
+                        Interval = 24 * 60,
                         TypeName = typeof(UpdateSceneMappingCommand).FullName
                     },
 
                     new ScheduledTask
                     {
-                        Interval = 6 * 60,
+                        Interval = 24 * 60,
                         TypeName = typeof(CheckHealthCommand).FullName
                     },
 
                     new ScheduledTask
                     {
-                        Interval = 12 * 60,
+                        Interval = 7 * 24 * 60,
                         TypeName = typeof(RefreshSeriesCommand).FullName
                     },
 
@@ -117,7 +110,7 @@ namespace NzbDrone.Core.Jobs
 
                     new ScheduledTask
                     {
-                        Interval = 5,
+                        Interval = 24 * 60,
                         TypeName = typeof(ImportListSyncCommand).FullName
                     },
 

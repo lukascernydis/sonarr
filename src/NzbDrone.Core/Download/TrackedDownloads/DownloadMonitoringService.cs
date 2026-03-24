@@ -55,7 +55,7 @@ namespace NzbDrone.Core.Download.TrackedDownloads
 
         private void QueueRefresh()
         {
-            _manageCommandQueue.Push(new RefreshMonitoredDownloadsCommand(), CommandPriority.High);
+            _logger.Debug("RefreshMonitoredDownloadsCommand is disabled; skipping automatic queueing");
         }
 
         private void Refresh()
@@ -157,13 +157,12 @@ namespace NzbDrone.Core.Download.TrackedDownloads
 
         public void Execute(RefreshMonitoredDownloadsCommand message)
         {
-            Refresh();
+            _logger.Debug("RefreshMonitoredDownloadsCommand is disabled; skipping execution");
         }
 
         public void Execute(CheckForFinishedDownloadCommand message)
         {
-            _logger.Warn("A third party app used the deprecated CheckForFinishedDownload command, it should be updated RefreshMonitoredDownloads instead");
-            Refresh();
+            _logger.Warn("CheckForFinishedDownload is disabled because RefreshMonitoredDownloadsCommand is disabled");
         }
 
         public void Handle(EpisodeGrabbedEvent message)
