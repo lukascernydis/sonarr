@@ -54,6 +54,12 @@ RUN dotnet publish src/NzbDrone.Mono/Sonarr.Mono.csproj \
     find /tmp/mono-publish -name 'libMonoPosixHelper*' -exec cp {} /app/sonarr/bin/ \; && \
     rm -rf /tmp/mono-publish
 
+# Ensure all native executables (ffprobe, ffmpeg, Sonarr, …) have the execute
+# bit set.  NuGet sometimes unpacks binaries without +x on Linux hosts.
+RUN find /app/sonarr/bin -maxdepth 1 -type f \
+      \( -name 'ffprobe' -o -name 'ffmpeg' -o -name 'Sonarr' -o -name 'createdump' \) \
+      -exec chmod +x {} +
+
 # ── Stage 3: Final runtime image ─────────────────────────────────────────────
 FROM ghcr.io/linuxserver/baseimage-alpine:3.23
 
